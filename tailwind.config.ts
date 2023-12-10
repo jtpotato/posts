@@ -4,15 +4,22 @@ const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      fontFamily: {
+        body: ['var(--font-satoshi)', 'sans-serif'],
+        display: ['var(--font-general-sans)', 'sans-serif']
       },
+      colors: {
+        "background-dark": "#010101",
+        "background-light": "#fefefe",
+        "text-dark": "#eee",
+        "text-secondary-dark": "#555",
+        "text-secondary-light": "#aaa",
+        "boba": "#f7e7c8",
+      }
     },
   },
   plugins: [],

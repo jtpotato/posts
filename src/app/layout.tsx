@@ -1,10 +1,18 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import localFont from 'next/font/local';
 
-export const metadata: Metadata = {
-  title: 'Posts',
-  description: 'Things that I write sometimes.',
-}
+const satoshiFont = localFont({
+  src: '../fonts/Satoshi-Variable.ttf',
+  display: 'swap',
+  variable: '--font-satoshi',
+})
+
+const generalSansFont = localFont({
+  src: '../fonts/GeneralSans-Variable.ttf',
+  display: 'swap',
+  variable: '--font-general-sans'
+})
 
 export default function RootLayout({
   children,
@@ -13,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${satoshiFont.variable} ${generalSansFont.variable}`}>{children}</body>
     </html>
   )
 }
