@@ -1,0 +1,47 @@
+---
+title: About r/MinecraftHelp...
+published: Nov 19 2023
+edited: Nov 19 2023
+visible: true
+image: /posts/images/2023/about-r-minecrafthelp/image1.webp
+---
+If you're been around on any forum - especially before it had concrete moderation and posting rules - you may have seen posts like this before.
+
+## help pls
+its not working
+
+---
+
+r/MinecraftHelp, a subreddit for technical support, is an especially unique case - not only because, during 2019, it was a relatively small subreddit, but also because Minecraft was getting popular with both small children and their parents in the wake of its 10th anniversary.
+
+Oh gosh...
+
+The funny thing about both of those demographics is that they have a *tendency* (im not trying to discriminate here) to be quite bad at communicating technical problems. Which is an issue for a subreddit that is entirely based in technical problems.
+
+Due to the extremely fragmented nature of Minecraft (the 3 ongoing editions at the time, Java, Bedrock and legacy console - as they were known), trying to ask for help and troubleshoot other people's problems was more difficult than other games.
+
+Additionally, with the Java version of the game, historical versions were easily obtained and playable - and while not officially supported, these historical versions such as 1.12.2 and 1.8.9 were recommended for specific playstyles.
+
+Think about the live service games of the 2020s (uh yes I'm talking about Genshin Impact, its spinoffs and the games it was inspired by) - one playable version, cross platform, limited customisability, built-in validation (which has to be done for gacha games to prevent users from cheating the game developers out of their major stream of income) and very little that could go wrong in terms of user error.
+
+There is no help subreddit for Genshin Impact - at least not technically. The puzzles on the other hand...
+
+---
+
+Point being, **Minecraft, when it goes wrong,  requires a decent grasp on technology**, which most of its demographic does not have.
+
+And that's why I wrote [How to post a help request](https://www.reddit.com/r/MinecraftHelp/comments/clpkmf/how_to_post_a_help_request/).
+
+![The post](https://media.discordapp.net/attachments/909210110826545233/1175688941068881970/image.png?ex=656c24a6&is=6559afa6&hm=5b0651be45f18a565300a41f11038ddedf8f4ada16d0c069ba8b0201a12ebbe3&=&width=2182&height=1158)
+
+I'm of the age where this would have been one of my very first interactions with the internet so forgive basically everything that's been said there.
+
+It follows a pretty standard issue reporting structure like one you might see on a popular git repo, with basic information allowing us to either reproduce what happened or otherwise deduce what is happening in each user's specific situation.
+
+The moderators of the subreddit implemented everything outlined in the post - although in a more Reddit-esque and slightly more flexible manner than I was originally suggesting. And the effect of this post can still be seen today - the system has since evolved slightly, and the occasional lapse of moderation/good posting etiquette can still be seen, but overall the subreddit looks significantly better than it did 4 years ago.
+
+![Example post #1](https://cdn.discordapp.com/attachments/909210110826545233/1175705774803132436/image.png?ex=656c3454&is=6559bf54&hm=1dd745be037bcecfbac119efa07906231c4081f21629450681083d18a7bcb3f3&)
+
+![Example post #2](https://media.discordapp.net/attachments/909210110826545233/1175705895343226910/image.png?ex=656c3471&is=6559bf71&hm=898615f3b2f884d65285d717c1f7e54cefefc1e3e9e29dae2692e3ddc0016677&=&width=2268&height=792)
+
+Here's to hoping that no other forum has to ever suffer this fate again :)

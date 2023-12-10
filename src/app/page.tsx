@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import PostsList from './PostsList'
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
           <p>I&apos;m Joel - and here I write about some of the stuff I&apos;ve worked on.</p>
         </div>
         <div>
-
+          <PostsList />
         </div>
       </div>
 

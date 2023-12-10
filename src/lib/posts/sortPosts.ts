@@ -3,7 +3,9 @@
 import getPosts from "./getPosts";
 
 function sortPosts(posts: Post[]) {
-    return (  );
+  return posts.sort((a, b) => {
+    return new Date(b.published).getTime() - new Date(a.published).getTime();
+  });
 }
 
 export default sortPosts;

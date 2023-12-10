@@ -1,10 +1,10 @@
-import { glob } from "glob";
+import { glob, globSync } from "glob";
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
 
-async function getPosts() {
-  const files = await glob("../../posts/**/*.mdx");
+function getPosts() {
+  const files = globSync(["posts/**/*.mdx", "posts/**/*.md"]);
 
   let posts: Post[] = [];
 
@@ -13,7 +13,7 @@ async function getPosts() {
       data = fs.readFileSync(fileName, "utf8");
 
     if (err) {
-      console.error(err);
+      // console.error(err);
       return;
     }
     let postData = matter(data);
@@ -21,6 +21,7 @@ async function getPosts() {
     let post: Post = {
       title: postData.data.title,
       slug: path.parse(fileName).name,
+      image: postData.data.image,
       published: postData.data.published,
       edited: postData.data.edited,
       visible: postData.data.visible,
