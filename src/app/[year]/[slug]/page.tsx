@@ -5,6 +5,13 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { GoChevronLeft } from "react-icons/go";
 import BobaLink from "@/boba-ui/link/BobaLink";
+import getPosts from "@/lib/posts/getPosts";
+
+export async function generateStaticParams() {
+    const posts = getPosts();
+
+    return posts.map(post => ({ year: new Date(post.published).getFullYear().toString(), slug: post.slug }));
+}
 
 function BlogPost({ params }: { params: { year: string, slug: string } }) {
     const post = getPostFromYearAndSlug(params.year, params.slug);
@@ -16,10 +23,10 @@ function BlogPost({ params }: { params: { year: string, slug: string } }) {
     return (<>
         <div>
             <div className="p-4">
-            <Link href="/" className="flex flex-row items-center gap-1">
-                <GoChevronLeft className={" stroke-1"} />
-                <p>Back to posts</p>
-            </Link>
+                <Link href="/" className="flex flex-row items-center gap-1">
+                    <GoChevronLeft className={" stroke-1"} />
+                    <p>Back to posts</p>
+                </Link>
             </div>
 
             <div className="font-body text-lg p-4 max-w-3xl m-auto">

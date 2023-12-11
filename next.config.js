@@ -8,7 +8,8 @@ const nextConfig = {
                 hostname: "lh7-us.googleusercontent.com",
             }
         ]
-    }
+    },
+    output: "export"
 }
 
 module.exports = nextConfig
