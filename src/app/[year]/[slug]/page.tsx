@@ -6,11 +6,30 @@ import Link from "next/link";
 import { GoChevronLeft } from "react-icons/go";
 import BobaLink from "@/boba-ui/link/BobaLink";
 import getPosts from "@/lib/posts/getPosts";
+import { Metadata } from "next";
 
 export async function generateStaticParams() {
     const posts = getPosts();
 
     return posts.map(post => ({ year: new Date(post.published).getFullYear().toString(), slug: post.slug }));
+}
+
+export async function generateMetadata({ params }: { params: { year: string, slug: string } }) {
+    const post = getPostFromYearAndSlug(params.year, params.slug);
+    const metadata: Metadata = {
+        metadataBase: new URL("http://localhost:3000"),
+        title: post.title,
+        description: post.content.slice(0, 50) + "...",
+        openGraph: {
+            title: post.title,
+            description: post.content.slice(0, 50) + "...",
+            images: [ post.image ],
+            url: `https://jtpotato.dev/${params.year}/${params.slug}`,
+            siteName: "jtpotato's Posts"
+        },
+    }
+
+    return metadata
 }
 
 function BlogPost({ params }: { params: { year: string, slug: string } }) {
