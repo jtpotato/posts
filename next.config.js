@@ -7,7 +7,8 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "lh7-us.googleusercontent.com",
             }
-        ]
+        ],
+        unoptimized: true,
     },
     output: "export"
 }

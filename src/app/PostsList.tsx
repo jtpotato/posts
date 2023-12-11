@@ -13,7 +13,7 @@ function PostsList() {
                 if (post.visible) {
                     return (
                         <Link key={post.slug} className="border border-black w-fit p-4 rounded-lg max-w-xl"
-                            href={`posts/${new Date(post.published).getFullYear()}/${post.slug}`}>
+                            href={`${new Date(post.published).getFullYear()}/${post.slug}`}>
                             <div>
                                 <div className="h-48 relative mb-4">
                                     <Image src={post.image} alt={post.title} fill className="rounded-md object-cover" />
