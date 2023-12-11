@@ -19,6 +19,7 @@ const config: Config = {
         "text-secondary-dark": "#555",
         "text-secondary-light": "#aaa",
         "boba": "#f7e7c8",
+        "boba-light": "#F9F5EF",
       }
     },
   },
