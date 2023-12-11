@@ -21,13 +21,13 @@ const components = {
         return <ul className="list-disc list-inside" {...props} />
     },
     p: (props) => {
-        return <p className="font-body text-lg mb-6 inline-block" {...props} />
+        return <p className="font-body text-lg my-4 inline-block" {...props} />
     },
     a: (props) => {
         return <Link {...props} className="underline" />
     },
     hr: (props) => {
-        return <hr className="my-8 border-black/50" {...props} />
+        return <hr className="my-16 border-black/50" {...props} />
     }
 }
 

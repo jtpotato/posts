@@ -1,249 +1,64 @@
 ---
-title: "Report: Making Firetrace"
+title: Making Firetrace
 published: Dec 11 2023
 edited: Dec 11 2023
+image: "/posts/images/2023/making-firetrace/matt-palmer-kbTp7dBzHyY-unsplash.webp"
 visible: true
-image: https://lh7-us.googleusercontent.com/7waMFhiLP5cGDVT7F3NPTjR_8sPfJrz1CMGxHNSy2v6122RJNpcP6hYH1F0iBZkQs-kjJtJXQoWU-EyOA2WDwsdxR4cUkTwdgsMr-xsSbH3yhXyDVtKZsEry0_qGByrtqGtVqCALTd7d-IldfT0liVE
 ---
 
-It has been several months since Firetrace was first released, and so - this internet-friendly version of the original report is long overdue.
+**Firetrace** is an AI model we developed in early-mid-2023 for the purposes of easy-to-use bushfire prediction, accurate to ~100 square kilometres.
 
-# Abstract
+![Bushfires](/posts/images/2023/making-firetrace/matt-palmer-kbTp7dBzHyY-unsplash.webp)
+Photo by [Matt Palmer](https://unsplash.com/@mattpalmer?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/silhouette-of-trees-during-sunset-kbTp7dBzHyY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
 
-We document the development of Firetrace; an AI model and web interface that uses projected weather data to predict the severity of bushfire events at a continental scale. It uses a deep neural network trained on temperature and Southern Oscillation Index (SOI - a measure of La Nina and El Nino events) information from BOM, fire information from NASA’s MODIS satellite as well as date information to represent seasonality and climate change trends. Severe bushfire events cause sudden habitat loss, endanger many animal species and drastically impact the economy. Accurate modelling of bushfires has the potential to inform future policy decisions and prepare for the challenges of a bushfire event.
+See the [report](/2023/firetrace-report).
 
-While not ready for production use in scientific applications, Firetrace offers some insight with reasonable accuracy into the relationship between the analysed factors and the size of bushfire events. With further work, Firetrace could help bring awareness to the effects of climate change, and other environmental factors,  on the size of bushfires.
+## Why did we build Firetrace?
+**TL;DR:** There was this competition where we had to flex the coolest project and we thought bushfire prediction was cool, but because we didn't know what we were doing, we limited the scope of the project.
 
-# 1 Introduction
+---
 
-We aim to create a publicly and freely accessible, reasonably accurate method of predicting the scale of future bushfires across the land area of Australia, as existing solutions are difficult to access outside of scientific institutions. An accessible solution could increase awareness of the relationship between climate and fire events and inform decisions around resource management in Australia.
+By no means do we have a deficit of advanced bushfire prediction tools. Given Australia's climate, government agencies have had a long history of working with scientists to develop accurate methods of predicting bushfire spread. However, these solutions are often tailored to specific locations, or work over a small area.
 
-## 1.1 Inspiration
+More recent developments to generalise these models appear successful - but they still place significant emphasis on being able to precisely pinpoint the movement of individual fires. As you can imagine, this is super useful for fire management and developing strategies to prevent fires from spreading after they take place. As Australia heads into what looks like another bad bushfire season, such technology is evidently needed.
 
-Bushfires are a pressing environmental issue with large ecological and economic consequences. Part of the inspiration for this project came from the devastating aftermath of the 2019-2020 Black Summer bushfires. An estimated 3.2 billion dollars of assets were lost during the fires and projections for the total economic impact of the event are significantly higher. (Wittwer et al., 2021). Additionally, an estimated 3 billion vertebrates were displaced, harmed or killed in the fires (World Wide Fund for Nature, 2020).
+But nobody really considered regular people. We may *hear* about these super-advanced models but we have no way of being able to play around with these ourselves. Even if some models are open, I find it highly unlikely that the average person would know/have the time to learn how to operate them.
 
-Further investigation reveals that this is an actively researched field. Solutions currently in development such as CSIRO’s Spark specialise in accurate, small-scale predictions with details such as predicted spread patterns and speed. (CSIRO, n.d.). We wanted to explore different approaches that prioritise continental-scale prediction as well as accessibility to people without extensive fire management training.
+##### Would these tools serve any purpose to regular people anyways?
 
-# 2 Approach
+Probably not. At-risk properties likely already have arrangements with local fire authorities to protect their homes. If anything were to come out for regular people, it would purely be for curiosity.
 
-## 2.1 Selecting and Finding Data
+Which is precisely why we decided that we were even *able* to create something to suit the task.
 
-A non-exhaustive list of potential factors that affect the size of bushfires was formed.
+---
 
-- Maximum daily temperature
+## Wait... so what are we building again?
+Something for *regular people* that can allow them to predict bushfires in some way. Just enough to satisfy their curiosity, given the constraints of the project it is *extremely* unlikely that we would be able to give people the ability to do anything insane like predict the actual locations of fires. There is simply not enough data to let this happen.
 
-- Density/land area of vegetation
+Given that the problem had been simplified so much, we didn't have to go looking for/inventing a new model architecture either. This is a simple x &rightarrow; y relation task (with multiple input variables) and we can therefore use the **multi layer perceptron** (MLP) to accomplish our task.
 
-- Humidity
+## okay but where do we get our data from
+While we had limited experience with writing models in Tensorflow, finding data proved to be a very complex task. Eventually we stumbled across a few Kaggle datasets that we could implement more quickly instead of trying to collect data ourselves, directly from satellites and weather stations.
 
-- Rainfall
+We ended up choosing two weather stations in Australia (Sydney and Brisbane) to base our weather data off of, as well as the BOM's monthly observations of the Southern Oscillation Index to give the model adequate information to make a prediction. Fire size data was collected from NASA's MODIS satellite. (Version two will work on incorporating data more elegantly and using more up-to-date data from a wider variety of sources.)
 
-- Solar irradiance (the energy from the sun that makes it to Earth’s surface)
+## Representing Data in the Model
+This is called **feature engineering** and turned out to be significantly more difficult than we initially expected. Apart from some basic rules of thumb, such as representing dates in the form of sin/cos signals, there weren't very many resources out there that were applicable to our problem specifically (which makes sense - as far as we can tell this is a unique project).
 
-- Wind speed
+The rest of the process had to be completed via experimentation and just changing how we processed some data. We could sum some fields, or just pass in the averages, normalise it in one of *several* ways (with no conclusive results as to which was better - as long as it was normalised it was pretty good). We continued feature engineering right until the very end of the timeline, retraining the model and seeing very incremental improvements.
 
-To reduce the difficulty of finding suitable datasets, potential approximations for the above factors were used.
+---
 
-**No approximations found**
+## The Finished Model
+After maybe 100+ hours of work (i should actually begin logging this) we finally released a completed model **[anyone can try out](https://jtpotato-firetrace.hf.space/)**.
 
-- Maximum daily temperature
+The final model:
+- 6&times;40 weights for input nodes
+- 40<sup>5</sup> (102,400,000) weights in hidden layers
+- 40 weights for the output layer
+- 201 total nodes
 
-- Vegetation - assumed to be constant across bushfire seasons.
+Coming out to 102,400,481 parameters. A decently sized model (which actually caused us some issues when we tried to host it)
 
-- Wind speed - unable to be accounted for.
-
-**Time of year**
-
-The following factors may be seasonal and have a strong correlation with time of year.
-
-- Humidity
-
-- Rainfall
-
-- Solar irradiance
-
-**Year since measurements began**
-
-The following factors may be linked to long-term effects such as climate change and are correlated to time.
-
-- Humidity
-
-- Rainfall
-
-**Southern Oscillation Index**
-
-The following factors may be linked to the Southern Oscillation Index (typically used as the definition for El Nino and La Nina events).
-
-- Temperature
-
-- Humidity
-
-- Rainfall
-
-- Wind speed
-
-Pre-published datasets on Kaggle were used, sourced from NASA’s MODIS satellite, a BOM weather observatory in Sydney, a BOM weather observatory in Brisbane and BOM’s monthly measurements of the Southern Oscillation Index. Refer to Section 6.2.
-
-## 2.2 Cleaning Data
-
-The following describes the method used to clean data irrespective of where the implementations are written.
-
-**Satellite Data on Australian Fires**
-
-1. Removed any potential sources of inaccuracy by dropping rows with confidence less than 95.
-
-2. Daily totals for fire size were generated.
-
-3. Unused columns were dropped.
-
-**Australian Weather Observation Data**
-
-1. A ‘date’ column was created, replacing the ‘day’, ‘month’ and ‘year’ columns.
-
-2. Columns were renamed to more sensible names (e.g. “Maximum temperature (Degree C)” to “max_t”)
-
-3. Unused columns were dropped.
-
-**Southern Oscillation Index**
-
-1. Column names were added.
-
-## 2.3 Feature Engineering
-
-**Time of Year**
-
-Encoding time-of-year information as a combination of sine and cosine waves is a relatively common method. (NVIDIA, 2022). Encoding data in such a way means that for every day of the year, there is a unique pair of values (from the sine and cosine) functions. Furthermore, this method represents the cyclical nature of a year, as days that appear to be on different ends (e.g. December 31st and January 1st) are, in reality, close together.
-
-## 2.4 Designing and Validating Models
-
-Initial trials in Orange revealed that the best model suited for the problem may be a Deep Neural Network (DNN), rather than simpler methods such as linear regression.
-
-The final DNN was written in Python with Keras.
-
-![](https://lh7-us.googleusercontent.com/RdPkUlcjObDKS4yIpIUE-eF60ORj0B88y3yv9hoR38AiJn8ojP0auvC9r_W8PQnQkWjucXqvgOEABXuRdsD4qPVof8bbGsynaHfyHynoDAnAj7jsPSGV-MgbZPRW1ZZGQSU2SGROTWiNiYogBlQsYoA)
-
-Figure 2.4: _The 28th July version of the model._
-
-**Model Shape**
-
-While there are numerous “rule-of-thumb” methods available to determine the shape of a neural network, it was found that the best results came from some experimentation with the number of hidden layers and input nodes. A very deep model (relative to the complexity of the problem) was chosen as it had a better chance of picking up subtle patterns while keeping file size and inference latency low.
-
-## 2.5 Training
-
-**Custom Loss**
-
-It was decided that overestimating fire sizes would be less harmful than underestimating fire sizes. To reflect this priority in the training of the model, a custom loss function was written that added additional penalties for underestimating fire sizes.
-
-![](https://lh7-us.googleusercontent.com/wT4QSofTRw5dHQgT-sGoBeGREJzTl3DiLKBYPQe6mcwMf4RFTDFWfvN20haeOfFTO3CwHfn911B9eugzC_PgpX2aFOmU7G8kk3QACpuxjkbcgHhRr-SOK-0v7kTdzu4N-ohe1JWKJ2239PH3rwxRVBQ)
-
-Figure 2.5.1: _The custom loss function_
-
-The loss function is based on Mean Squared Error, which punishes large errors significantly more than small errors.
-
-**Early Stopping**
-
-To prevent overfitting (the model “remembering” training data and being unable to generalise to new data), the model was configured to automatically stop training after validation loss stops improving.
-
-![](https://lh7-us.googleusercontent.com/7waMFhiLP5cGDVT7F3NPTjR_8sPfJrz1CMGxHNSy2v6122RJNpcP6hYH1F0iBZkQs-kjJtJXQoWU-EyOA2WDwsdxR4cUkTwdgsMr-xsSbH3yhXyDVtKZsEry0_qGByrtqGtVqCALTd7d-IldfT0liVE)
-
-Figure 2.5.2: _Graph displaying the training curves during the training process of the model_
-
-The training curves (values shown are in terms of Mean Absolute Error for interpretability) indicate no sign of under/overfitting. After training, the checkpoint that performs the best is loaded and saved.
-
-## 2.6 Validation
-
-To visualise the performance of the model, the model’s predictions were plotted against the actual, ground-truth values of the test dataset.
-
-![](https://lh7-us.googleusercontent.com/xt7LrJHy_VMlIOaWRenKTijim1ZIpUOR24OCqjOCJtiknR1pcJVDF7t2sMWooJHmhO5n0IWL-7u4d4LMvaCa6o4GM-epIO7tbAhGAb7PNv2yVPUE6eedqz9QuReA0ckNgyXEnXxTMU1BYdBE5auHtkM)
-
-Figure 2.6: _Graph displaying a comparison between the model’s predicted data and actual data_
-
-Section 3.1 discusses the results in more detail.
-
-## 2.7 Distribution
-
-A user interface to interact with the model was written with Gradio and hosted on HuggingFace to ensure that the model was accessible to the general public. The user interface also offers a few useful insights to assist with interpreting the model’s output, to put the size of these fires into perspective.
-
-![](https://lh7-us.googleusercontent.com/5aCe4BxKkKtX18-sN67MVD1eZ6IeSTZsABwnMrJ97Ota0tlkOvixPGrTu1eJE50261BXvnr9nct9PYLWZIcWyMvJK_OXjSrroHiks6P10r6cqjnY71rH70XmJjfhfAXMVOpJEvIHqrgmYKf3yS5691M)
-
-Figure 2.7: _A screenshot of a part of the user interface displaying how the output is presented_
-
-An API accessible through HTTP requests is also available.
-
-# 3 Limitations and Challenges
-
-## 3.1 Results and Limitations
-
-The model can accurately predict the timing of fire events without fire size information from previous days, significantly exceeding expectations.
-
-However, it does not appear to be very effective at determining the scale of bushfire events. As shown by Figure 2.5.2, the model is off from the ground truth predictions by \~100 square kilometres on average. Accuracy is also expected to decline when trying to predict fires further into the future. Figure 2.6 reveals that the model is significantly less accurate during extreme events. The custom loss function addresses this to a limited extent, and the strength of punishments for underestimated values needs to be re-evaluated.
-
-The model’s reliance on projected weather information further reduces its accuracy. Projected weather data may not be as accurate as the historical data the model was trained on.
-
-Additionally, the model was only trained on data leading up to (approximately) 2016 and validated on data between 2016 and 2019. The inclusion of up-to-date data is likely to increase the model’s accuracy in predicting future events.
-
-Because of these shortcomings, Firetrace in its current state should not be used as a forecasting tool for mission-critical applications.
-
-## 3.2 Challenges
-
-The initial focus of the project was to use time-series forecasting to predict the scale of future fires based on the size of previous fires. Time series forecasting depends on strong patterns in historical data. However, bushfires do not have strong means that they were difficult to predict from time series alone, regardless of which algorithm we used.
-
-Methods considered:
-
-- Linear regression
-
-- Prophet (from Meta/Facebook)
-
-- SARIMA/SARIMAX
-
-- Deep neural network
-
-Therefore, we adapted our method to use weather data to predict the size of fires instead. Meteorological information such as temperature has been heavily researched for centuries, and accurate methods exist to predict future values. There is also a stronger relationship between temperature and size of fire events making it easier to fit a model to this data.
-
-Additionally, programming new solutions for every dataset and configuration proved to be an extremely arduous and inefficient process. The use of graphical, low-code tools such as Orange greatly reduced the time required for prototypes to be made. Once confident, a more polished model was created using Tensorflow/Keras, and model hyperparameters (number of nodes and layers, learning rate, etc) were further experimented with.
-
-A lack of easily obtainable information surrounding wind speed, fuel loads and humidity also made it more difficult to construct an accurate bushfire prediction model. Unfortunately, this issue has no easy resolution and will require the assistance of domain experts such as machine learning and climate scientists.
-
-# 4 Improvements
-
-This project could have been completed more effectively if conversations with climate and fire experts were conducted to increase domain knowledge, allowing for a more tailored solution.
-
-Additionally, using more data points such as projected carbon dioxide and vegetation (fuel load) levels, as well as including more recent data, would have improved the accuracy of the model.
-
-The model could also have additional outputs, such as the predicted economic impact of fires and the number of animals that may be affected by the fires. Also, if sufficient time was provided, a visualisation of the prediction (ie. a map demonstrating the area covered) could be included for more convenient usage.
-
-# 5 Conclusion
-
-Firetrace is a bushfire modelling tool that uses machine learning to predict the severity of bushfire events in terms of the area covered. It is distributed for public use through a Gradio interface hosted on HuggingFace. The reasonably high level of accuracy allows the public to explore the relationship between fires and a range of factors, gaining an understanding on the behaviour of fire events. Though there is significant room for improvement, Firetrace represents a significant step towards highly useful natural disaster forecasting systems, presenting potential to inform future policy decisions and prepare for the challenges of a bushfire event. In the future, a range of other factors and methods may be explored to further increase accuracy.
-
-# 6 References
-
-## 6.1 Websites/Reports
-
-CSIRO. (n.d.). _Spark: Predicting bushfire spread_. CSIRO. Retrieved July 16, 2023, from[ https://www.csiro.au/en/research/technology-space/ai/Spark](https://www.csiro.au/en/research/technology-space/ai/Spark)
-
-_Three Approaches to Encoding Time Information as Features for ML Models_. (2022, February 17). NVIDIA Technical Blog.[ https://developer.nvidia.com/blog/three-approaches-to-encoding-time-information-as-features-for-ml-models/](https://developer.nvidia.com/blog/three-approaches-to-encoding-time-information-as-features-for-ml-models/)
-
-Wittwer, G., Li, K., & Yang, S. (2021, June). _The economic impacts of the 2019-20 bushfires on Victoria_. Department of Treasury and Finance Victoria.[ https://www.dtf.vic.gov.au/victorias-economic-bulletin-volume-5/economic-impacts-2019-20-bushfires-victoria](https://www.dtf.vic.gov.au/victorias-economic-bulletin-volume-5/economic-impacts-2019-20-bushfires-victoria)
-
-World Wide Fund for Nature. (2020). _Australia’s 2019-2020 Bushfires: The Wildlife Toll_. World Wide Fund for Nature.[ https://assets.wwf.org.au/image/upload/v1/website-media/resources/Animals_Impacted_Interim_Report_24072020_final?\_a=ATO2Bfg0](https://assets.wwf.org.au/image/upload/v1/website-media/resources/Animals_Impacted_Interim_Report_24072020_final?_a=ATO2Bfg0)
-
-## 6.2 Datasets
-
-Australian Bureau of Meteorology. (2023). \[Monthly data regarding the Southern Oscillation Index] \[Data set][ http://www.bom.gov.au/climate/enso/soi_monthly.txt](http://www.bom.gov.au/climate/enso/soi_monthly.txt)
-
-Cheng, A. (2020). Australian Weather Observation Data. \[Data set] _Kaggle_.[ https://www.kaggle.com/datasets/alcheng10/bom-weather-observation-data-select-stations](https://www.kaggle.com/datasets/alcheng10/bom-weather-observation-data-select-stations)
-
-Gutierrez, G. B. (2020). Satellite Data on Australian Fires. \[Data set] _Kaggle_. Retrieved July 14, 2023, from[ https://www.kaggle.com/datasets/gabrielbgutierrez/satellite-data-on-australia-fires](https://www.kaggle.com/datasets/gabrielbgutierrez/satellite-data-on-australia-fires)
-
-# 7 Appendices
-
-## 7A Source Code and Demo
-
-https://github.com/jtpotato/firetrace
-
-A GitHub repository containing archives of all Jupyter Notebooks, source code for the web UI, some data used for training as well as the final trained AI model.
-
-https://huggingface.co/spaces/jtpotato/firetrace
-
-HuggingFace demo of the model, open for anybody to use.
+## What about that competition?
+It's not done yet, but we did come first in our state :P
