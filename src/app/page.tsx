@@ -1,5 +1,11 @@
 import Image from 'next/image'
 import PostsList from './PostsList'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: "jtpotato's Posts",
+  description: "Where I write about the things I've made/the things I've noticed."
+}
 
 export default function Home() {
   return (
