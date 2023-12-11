@@ -30,7 +30,9 @@ function BlogPost({ params }: { params: { year: string, slug: string } }) {
             </div>
 
             <div className="font-body text-lg p-4 max-w-3xl m-auto">
+                <p className="text-sm">{post.published}</p>
                 <h1 className="font-display font-bold text-4xl mb-4">{post.title}</h1>
+                <p className="text-sm mb-4">Last Edit: {post.edited}</p>
                 <MDXRemote source={post.content} components={components} />
             </div>
 
