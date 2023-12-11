@@ -13,6 +13,7 @@ function PostsList() {
                 if (post.visible) {
                     return (
                         <Link key={post.slug} className="border border-black w-fit p-4 rounded-lg max-w-xl"
+                            // for some reason, this doesn't work in prod unless i omit `posts`.
                             href={`${new Date(post.published).getFullYear()}/${post.slug}`}>
                             <div>
                                 <div className="h-48 relative mb-4">
