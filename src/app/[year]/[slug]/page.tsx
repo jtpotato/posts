@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { year: string, slug: string } }) {
     const post = getPostFromYearAndSlug(params.year, params.slug);
     const metadata: Metadata = {
-        metadataBase: new URL("http://jtpotato.github.io"),
+        metadataBase: new URL("https://jtpotato.github.io"),
         title: post.title,
         description: post.content.slice(0, 50) + "...",
         openGraph: {
