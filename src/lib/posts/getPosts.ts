@@ -18,10 +18,16 @@ function getPosts() {
     }
     let postData = matter(data);
 
+    let imageURL: string = postData.data.image
+
+    if (imageURL?.startsWith("/") && process.env.RUN_ENV != "dev") {
+      imageURL = "/posts" + imageURL
+    }
+
     let post: Post = {
       title: postData.data.title,
       slug: path.parse(fileName).name,
-      image: postData.data.image,
+      image: imageURL,
       published: postData.data.published,
       edited: postData.data.edited,
       visible: postData.data.visible,

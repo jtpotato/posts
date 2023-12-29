@@ -1,6 +1,9 @@
 import BobaLink from "@/boba-ui/link/BobaLink"
+import fixImageSrc from "@/lib/images/fixImageSrc"
+import Image from "next/image"
 import Link from "next/link"
-import { JSX, ClassAttributes, HTMLAttributes } from "react"
+import { JSX, ClassAttributes, HTMLAttributes, IframeHTMLAttributes } from "react"
+import YouTubeEmbed from "./YouTubeEmbed"
 
 const components = {
     h1: (props: JSX.IntrinsicAttributes & ClassAttributes<HTMLHeadingElement> & HTMLAttributes<HTMLHeadingElement>) => {
@@ -28,7 +31,13 @@ const components = {
         return <Link {...props} className="underline" />
     },
     hr: (props: JSX.IntrinsicAttributes & ClassAttributes<HTMLHRElement> & HTMLAttributes<HTMLHRElement>) => {
-        return <hr className="my-16 border-black/50" {...props} />
+        return <hr className="my-8 border-black/50" {...props} />
+    },
+    img: (props: JSX.IntrinsicAttributes & ClassAttributes<HTMLImageElement> & HTMLAttributes<HTMLImageElement> & { src: string, alt: string }) => {
+        return <img {...props} src={fixImageSrc(props.src)} />
+    },
+    YouTubeEmbed: (props: { src: string }) => {
+        return <YouTubeEmbed src={props.src} />
     }
 }
 
