@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    basePath: "/posts",
+    basePath: process.env.RUN_ENV == "dev" ? "" : "/posts",
     images: {
         remotePatterns: [
             {
