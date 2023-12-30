@@ -9,7 +9,6 @@ import LinkTransition from "../lib/transitions/LinkTransition";
 function PostPreview({ post, index }: { post: Post, index: number }) {
   return (
     <LinkTransition
-      key={post.slug}
       className="p-4 rounded-lg w-96 post-preview-appear"
       href={`/${new Date(post.published).getFullYear()}/${post.slug}`}
       style={{ "--animation-delay": `${index}s` } as CSSProperties}

@@ -10,7 +10,7 @@ function PostsList() {
             {posts.map((post, index) => {
                 if (post.visible) {
                     return (
-                        <PostPreview post={post} index={index} />
+                        <PostPreview post={post} index={index} key={post.slug} />
                     )
                 }
             })}
