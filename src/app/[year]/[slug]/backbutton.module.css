@@ -1,0 +1,12 @@
+@keyframes flyout {
+  from {
+    transform: translateX(0)
+  }
+  to {
+    transform: translate(-100vw);
+  }
+}
+
+.backbutton {
+  animation: flyout 0.2s ease;
+}

@@ -1,3 +1,4 @@
+import MouseTracker from './MouseTracker'
 import PostsList from './PostsList'
 import { Metadata } from 'next'
 
@@ -16,6 +17,7 @@ export default function Home() {
         </div>
         <div>
           <PostsList />
+          <MouseTracker />
         </div>
       </div>
 

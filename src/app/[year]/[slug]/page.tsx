@@ -7,7 +7,7 @@ import { GoChevronLeft } from "react-icons/go";
 import BobaLink from "@/boba-ui/link/BobaLink";
 import getPosts from "@/lib/posts/getPosts";
 import { Metadata } from "next";
-import LinkTransition from "@/lib/transitions/LinkTransition";
+import styles from "./backbutton.module.css"
 
 export async function generateStaticParams() {
     const posts = getPosts();
@@ -43,10 +43,10 @@ function BlogPost({ params }: { params: { year: string, slug: string } }) {
     return (<>
         <div>
             <div className="font-body text-lg p-4 max-w-3xl m-auto">
-                <LinkTransition href="/" className="flex flex-row items-center gap-1 my-8 ml-[-21.5px]" type="back">
+                <Link href="/" className={"flex flex-row items-center gap-1 my-8 ml-[-21.5px] " + styles.backbutton}>
                     <GoChevronLeft className={"stroke-1"} />
                     <p className="text-sm">Back to posts</p>
-                </LinkTransition>
+                </Link>
                 <p className="text-sm">{post.published}</p>
                 <h1 className="font-display font-bold text-4xl mb-4">{post.title}</h1>
                 <p className="text-sm mb-4">Last Edit: {post.edited}</p>

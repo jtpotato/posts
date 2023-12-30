@@ -1,0 +1,3 @@
+.postlist {
+  background-image: radial-gradient(800px circle at calc(var(--mouse-x) - var(--rect-x)) calc(var(--mouse-y) - var(--rect-y)), #d0d0d0, transparent 40%);
+}
