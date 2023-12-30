@@ -16,15 +16,16 @@ function LinkTransition(props: LinkProps & HTMLAttributes<HTMLAnchorElement> & {
       }
       // browser supports view transition. Animate the transtion.
       e.preventDefault();
-      const transition = document.startViewTransition(() => {
-        router.push(props.href.toString());
-      });
+      router.push(props.href.toString());
+      // const transition = document.startViewTransition(() => {
+      //   router.push(props.href.toString());
+      // });
 
-      try {
-        await transition.finished;
-      } finally {
-        document.documentElement.classList.remove('back-transition');
-      }
+      // try {
+      //   await transition.finished;
+      // } finally {
+      //   document.documentElement.classList.remove('back-transition');
+      // }
     }
   };
 
