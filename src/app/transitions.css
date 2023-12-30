@@ -1,0 +1,59 @@
+::view-transition-old(root) {
+  animation: 200ms ease-out zoomInStart;
+}
+
+::view-transition-new(root) {
+  animation: 200ms ease-out zoomInEnd;
+}
+
+.back-transition::view-transition-old(root) {
+  animation: 200ms ease-out zoomOutStart;
+}
+
+.back-transition::view-transition-new(root) {
+  animation: 200ms ease-out zoomOutEnd;
+}
+
+@keyframes zoomInStart {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes zoomInEnd {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomOutStart {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes zoomOutEnd {
+  from {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

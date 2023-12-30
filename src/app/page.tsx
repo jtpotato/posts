@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import PostsList from './PostsList'
 import { Metadata } from 'next'
 
@@ -11,8 +10,9 @@ export default function Home() {
   return (
     <>
       <div className='font-body p-4'>
-        <div className='mt-8 mb-16'>
-          <p>I&apos;m Joel - and I write some stuff here.</p>
+        <div className='mt-8 mb-16 p-4'>
+          <h1>Posts</h1>
+          <p>See my <a href="/"><span className='underline'>main site</span></a></p>
         </div>
         <div>
           <PostsList />
