@@ -11,21 +11,17 @@ function LinkTransition(props: LinkProps & HTMLAttributes<HTMLAnchorElement> & {
       // browser does not support view transition. Continue the default behavior.
       return;
     } else {
-      if (props.type == "back") {
-        document.documentElement.classList.add('back-transition')
-      }
+      let transitionClass = "exit-animation"
       // browser supports view transition. Animate the transtion.
       e.preventDefault();
-      router.push(props.href.toString());
-      // const transition = document.startViewTransition(() => {
-      //   router.push(props.href.toString());
-      // });
+      document.documentElement.classList.remove("entry-animation")
+      document.documentElement.classList.add(transitionClass)
 
-      // try {
-      //   await transition.finished;
-      // } finally {
-      //   document.documentElement.classList.remove('back-transition');
-      // }
+      setTimeout(() => {
+        router.push(props.href.toString());
+        document.documentElement.classList.remove(transitionClass)
+        document.documentElement.classList.add("entry-animation")
+      }, 200)
     }
   };
 
