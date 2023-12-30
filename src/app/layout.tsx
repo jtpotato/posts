@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import './globals.css'
 import './transitions.css'
 import { Inter } from "next/font/google"
@@ -11,6 +12,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Head>
+        <meta name="view-transition" content="same-origin" />
+      </Head>
       <body className={inter.className}>
         {children}
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "328e28981c8044cca1b839a09b0e30d1"}'></script>
