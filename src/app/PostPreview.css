@@ -15,8 +15,4 @@
     animation: PostPreviewAppear cubic-bezier(0.26, 0.09, 0.54, 1.56) 0.3s calc(var(--animation-delay) / 20);
     animation-fill-mode: backwards;
   }
-
-  .post-preview-hover:hover {
-    transform: scale(0.995);
-  }
 }

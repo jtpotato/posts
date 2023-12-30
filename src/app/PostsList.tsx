@@ -7,7 +7,7 @@ function PostsList() {
     const posts = sortPosts(getPosts());
 
     return (<>
-        <div className={"flex flex-row flex-wrap gap-[1px] p-[1px] relative"}>
+        <div className={"grid p-4 grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 max-w-8xl m-auto"}>
             {posts.map((post, index) => {
                 if (post.visible) {
                     return (
@@ -15,7 +15,6 @@ function PostsList() {
                     )
                 }
             })}
-            <PostListBackground />
         </div>
     </>);
 }
